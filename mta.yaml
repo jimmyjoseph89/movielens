@@ -11,6 +11,17 @@ modules:
       properties:
           TARGET_CONTAINER: '~{hdi-container-name}'
 
+
+ - name: js
+   type: nodejs
+   path: js
+   provides:
+    - name: js_api
+      properties:
+         url: '${default-url}'
+   requires:
+    - name: hdi-container
+
 resources:
  - name: hdi-container
    type: com.sap.xs.hdi-container
