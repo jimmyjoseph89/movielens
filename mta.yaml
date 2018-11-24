@@ -1,32 +1,38 @@
 ID: movielens
 _schema-version: '2.0'
 version: 0.0.1
-
 modules:
- - name: db
-   type: hdb
-   path: db
-   requires:
-    - name: hdi-container
-      properties:
+  - name: db
+    type: hdb
+    path: db
+    requires:
+      - name: hdi-container
+        properties:
           TARGET_CONTAINER: '~{hdi-container-name}'
-
-
- - name: js
-   type: nodejs
-   path: js
-   provides:
-    - name: js_api
-      properties:
-         url: '${default-url}'
-   requires:
-    - name: hdi-container
-
+  - name: js
+    type: nodejs
+    path: js
+    provides:
+      - name: js_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: hdi-container
+  - name: html
+    type: html5
+    path: html
+    requires:
+      - name: js_api
+        group: destinations
+        properties:
+          name: movielens_api
+          url: '~{url}'
+          timeout: 3000000
 resources:
- - name: hdi-container
-   type: com.sap.xs.hdi-container
-   parameters:
+  - name: hdi-container
+    type: com.sap.xs.hdi-container
+    parameters:
       config:
-         schema: ml
-   properties:
+        schema: ml
+    properties:
       hdi-container-name: '${service-name}'
